@@ -1,5 +1,5 @@
 let openCards = [];
-const hideDelay = 1500;
+const hideDelay = 1000;
 const gameField = document.querySelector(".game-field");
 const arrayOfCards = (() => {
 	let cards = [];
@@ -19,6 +19,12 @@ const getTemplateCard = (newClass) => {
         </div>`;
 }
 
+const clearOpenCards = () => {
+	if(document.querySelectorAll(".rotate-card")) {
+		openCards = [];
+	}
+}
+
 const drawCards = (arrayOfCards) => {
 	let selected = getShuffledCards(arrayOfCards).slice(0, 10);
 	let playCards = getShuffledCards([...selected, ...selected]);
@@ -28,14 +34,18 @@ const drawCards = (arrayOfCards) => {
 const hideAllSelectedCards = () => {
 	setTimeout(() => { 
 		document.querySelectorAll(".flipper").forEach((item) => item.classList.remove("rotate-card"));
-		openCards = [];
+		clearOpenCards();
 	}, hideDelay);
 }
 
 const hideCheckedCards = () => {
 	setTimeout(() => { 
-		document.querySelectorAll(".rotate-card").forEach((item) => item.classList.add("remove-card"));
-		openCards = [];
+		document.querySelectorAll(".rotate-card").forEach((item) => {
+			item.classList.remove("rotate-card");
+			item.classList.add("remove-card");
+		});
+		clearOpenCards();
+		countSuccessfullCard();
 	}, hideDelay);
 }
 
